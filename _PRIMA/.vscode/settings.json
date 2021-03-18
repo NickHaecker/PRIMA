@@ -1,0 +1,8 @@
+[
+{
+"key": "alt+f",
+"command": "editor.action.insertSnippet",
+"when": "editorFocus",
+"args": {"snippet": "ƒ"}
+}
+]
