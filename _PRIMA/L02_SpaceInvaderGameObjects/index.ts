@@ -1,14 +1,14 @@
 namespace L02_SpaceInvaderGameObjects {
     import fudge = FudgeCore;
-    let nodes: any = {};
-    const viewport: fudge.Viewport = new fudge.Viewport();
-    const FPS: number = 60;
-    let canvas: HTMLCanvasElement;
-    const cam: fudge.ComponentCamera = new fudge.ComponentCamera();
+    export let nodes: any = {};
+    export const viewport: fudge.Viewport = new fudge.Viewport();
+    export const FPS: number = 60;
+    export let canvas: HTMLCanvasElement;
+    export const cam: fudge.ComponentCamera = new fudge.ComponentCamera();
     cam.mtxPivot.translateZ(33);
     cam.mtxPivot.rotateY(180);
-    cam.mtxPivot.translateY(5);
-    const startX: number = -3;
+    cam.mtxPivot.translateY(7);
+    export const startX: number = -3;
 
     function GetNode(name: string): fudge.Node {
         const response: fudge.Node = nodes[name];
@@ -25,79 +25,53 @@ namespace L02_SpaceInvaderGameObjects {
             nodes[item] = new fudge.Node(item);
         });
     }
+    function AddNode(node: fudge.Node): void {
+        nodes[node.name] = node;
+    }
 
-    function AddChild(parent: string, child: string): void {
+    function AddChildByString(parent: string, child: string): void {
+            const parentNode: fudge.Node = GetNode(parent);
+            const childNode: fudge.Node = GetNode(child);
+            parentNode.addChild(childNode);
+    }
+    function AddChildByNode(parent: string, childNode: fudge.Node): void {
         const parentNode: fudge.Node = GetNode(parent);
-        const childNode: fudge.Node = GetNode(child);
-        parentNode.appendChild(childNode);
+        AddNode(childNode);
+        parentNode.addChild(childNode);
     }
-   
-    function initPlayer(): void {
-        const base: fudge.Node = GetNode("Base");
-        base.addComponent(new fudge.ComponentMesh(new fudge.MeshQuad()));
-        base.addComponent(new fudge.ComponentMaterial(new fudge.Material("White", fudge.ShaderUniColor, new fudge.CoatColored(fudge.Color.CSS("WHITE")))));
-        const head: fudge.Node = GetNode("Head");
-        head.addComponent(new fudge.ComponentMesh(new fudge.MeshQuad()));
-        head.addComponent(new fudge.ComponentMaterial(new fudge.Material("White", fudge.ShaderUniColor, new fudge.CoatColored(fudge.Color.CSS("WHITE")))));
-        head.addComponent(new fudge.ComponentTransform());
-        head.getComponent(fudge.ComponentMesh).mtxPivot.translateY(0.7);
-        head.getComponent(fudge.ComponentMesh).mtxPivot.scale(new fudge.Vector3(0.4, 0.4, 0.4));
+    function InitPlayer(): void {
+        AddChildByNode("Character", new Player());
     }
-
-    function initShields(shields: Number): void {
+    function InitShields(shieldAmount: number): void {
         const startY: number = 2;
-        for (let i: number = 0; i < shields; i++) {
-            const shield: fudge.Node = GetNode(`Shield-${i}`);
-            shield.addComponent(new fudge.ComponentMesh(new fudge.MeshQuad()));
-            shield.addComponent(new fudge.ComponentMaterial(new fudge.Material("White", fudge.ShaderUniColor, new fudge.CoatColored(fudge.Color.CSS("WHITE")))));
-            shield.addComponent(new fudge.ComponentTransform());
-            shield.getComponent(fudge.ComponentMesh).mtxPivot.translateY(startY);
-            const calcX: number = startX + (2 * i);
-            shield.getComponent(fudge.ComponentMesh).mtxPivot.translateX(calcX);
-            AddChild("Shields", shield.name);
+        for (let i: number = 0; i < shieldAmount; i++) {
+            AddChildByNode("Shields", new Shield(startX + (2 * i), startY, 4));
         }
     }
 
-    function initEnemies(rows: number, columns: number): void {
-        const startY: number = 13;
-       
-        let enemieCount: number = 0;
+    function InitEnemies(rows: number, columns: number): void {
+        const startY: number = 14;
         for (let y: number = rows; y > 0; y--) {
             for (let x: number = 0; x < columns; x++) {
-                const enemy: fudge.Node = GetNode(`Enemy-${enemieCount}`);
-                enemy.addComponent(new fudge.ComponentMesh(new fudge.MeshSphere()));
-                enemy.addComponent(new fudge.ComponentMaterial(new fudge.Material("White", fudge.ShaderUniColor, new fudge.CoatColored(fudge.Color.CSS("WHITE")))));
-                enemy.addComponent(new fudge.ComponentTransform());
-                enemy.getComponent(fudge.ComponentMesh).mtxPivot.translateY(startY - (2 * y));
-                enemy.getComponent(fudge.ComponentMesh).mtxPivot.translateX(startX + (2 * x));
-                AddChild("Enemies", enemy.name);
-                enemieCount++;
+                AddChildByNode("Enemies", new Invader(startX - 2 + (2 * x), startY - (2 * y)));
             }
         }
-        const motherShip: fudge.Node = GetNode("Alienship");
-        motherShip.addComponent(new fudge.ComponentMesh(new fudge.MeshQuad()));
-        motherShip.addComponent(new fudge.ComponentMaterial(new fudge.Material("White", fudge.ShaderUniColor, new fudge.CoatColored(fudge.Color.CSS("WHITE")))));
-        motherShip.addComponent(new fudge.ComponentTransform());
-        motherShip.getComponent(fudge.ComponentMesh).mtxPivot.translateY(startY + 1);
-        motherShip.getComponent(fudge.ComponentMesh).mtxPivot.translateX(startX);
-        motherShip.getComponent(fudge.ComponentMesh).mtxPivot.scaleX(2)
     }
-    
+    function InitStructure(): void {
+        AddNodes(["Game", "Character", "Shields", "Enemy", "Alienship", "Enemies"]);
+        AddChildByString("Game", "Character");
+        AddChildByString("Game", "Shields");
+        AddChildByString("Game", "Enemy");
+        AddChildByString("Enemy", "Alienship");
+        AddChildByString("Enemy", "Enemies");
+    }
     window.addEventListener("load", handleLoad);
     function handleLoad(_event: Event): void {
         canvas = document.querySelector("canvas");
-        AddNodes(["Game", "Character", "Shields", "Enemy", "Alienship", "Spawner", "Enemies"]);
-        AddChild("Game", "Character");
-        AddChild("Game", "Shields");
-        AddChild("Game", "Enemy");
-        AddChild("Enemy", "Alienship");
-        AddChild("Enemy", "Spawner");
-        AddChild("Enemy", "Enemies");
-        AddChild("Character", "Base");
-        AddChild("Base", "Head");
-        initPlayer();
-        initShields(4);
-        initEnemies(3, 4);
+        InitStructure();
+        InitPlayer();
+        InitShields(4);
+        InitEnemies(3, 6);
 
 
 
@@ -108,6 +82,7 @@ namespace L02_SpaceInvaderGameObjects {
 
 
         const gameNode: fudge.Node = GetNode("Game");
+        console.log(nodes)
         console.log(gameNode);
 
 
