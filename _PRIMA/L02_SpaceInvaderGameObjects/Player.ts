@@ -5,6 +5,7 @@ namespace L02_SpaceInvaderGameObjects {
             super("Player");
             this.addComponent(new fudge.ComponentMesh(new fudge.MeshQuad()));
             this.addComponent(new fudge.ComponentMaterial(new fudge.Material("White", fudge.ShaderUniColor, new fudge.CoatColored(fudge.Color.CSS("WHITE")))));
+            this.addComponent(new fudge.ComponentTransform());
             const head: fudge.Node = new fudge.Node("Head");
             head.addComponent(new fudge.ComponentMesh(new fudge.MeshQuad()));
             head.addComponent(new fudge.ComponentMaterial(new fudge.Material("White", fudge.ShaderUniColor, new fudge.CoatColored(fudge.Color.CSS("WHITE")))));
@@ -13,6 +14,8 @@ namespace L02_SpaceInvaderGameObjects {
             head.getComponent(fudge.ComponentMesh).mtxPivot.scale(new fudge.Vector3(0.4, 0.4, 0.4));
             this.addChild(head);
         }
-
+        public MovePlayer(pos: number): void {
+            this.mtxLocal.translateX(pos);
+        }
     }
 }

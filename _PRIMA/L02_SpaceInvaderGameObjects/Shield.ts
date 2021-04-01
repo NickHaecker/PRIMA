@@ -1,6 +1,6 @@
 namespace L02_SpaceInvaderGameObjects {
     import fudge = FudgeCore;
-    export class Shield extends fudge.Node{
+    export class Shield extends fudge.Node {
         constructor(_xPosition: number, _yPosition: number, subShields: number) {
             super(`Shield-${_xPosition}:${_yPosition}`);
             this.addComponent(new fudge.ComponentTransform());

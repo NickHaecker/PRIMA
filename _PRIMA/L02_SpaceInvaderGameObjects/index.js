@@ -10,6 +10,7 @@ var L02_SpaceInvaderGameObjects;
     L02_SpaceInvaderGameObjects.cam.mtxPivot.rotateY(180);
     L02_SpaceInvaderGameObjects.cam.mtxPivot.translateY(7);
     L02_SpaceInvaderGameObjects.startX = -3;
+    L02_SpaceInvaderGameObjects.speed = 1;
     function GetNode(name) {
         const response = L02_SpaceInvaderGameObjects.nodes[name];
         if (response) {
@@ -48,7 +49,7 @@ var L02_SpaceInvaderGameObjects;
         }
     }
     function InitEnemies(rows, columns) {
-        const startY = 14;
+        const startY = 16;
         for (let y = rows; y > 0; y--) {
             for (let x = 0; x < columns; x++) {
                 AddChildByNode("Enemies", new L02_SpaceInvaderGameObjects.Invader(L02_SpaceInvaderGameObjects.startX - 2 + (2 * x), startY - (2 * y)));
@@ -64,22 +65,34 @@ var L02_SpaceInvaderGameObjects;
         AddChildByString("Enemy", "Enemies");
     }
     window.addEventListener("load", handleLoad);
+    // window.addEventListener("keydown", handleInput);
     function handleLoad(_event) {
         L02_SpaceInvaderGameObjects.canvas = document.querySelector("canvas");
         InitStructure();
         InitPlayer();
         InitShields(4);
-        InitEnemies(3, 6);
+        InitEnemies(4, 6);
+        L02_SpaceInvaderGameObjects.player = GetNode("Character").getChildrenByName("Player")[0];
         const gameNode = GetNode("Game");
-        console.log(L02_SpaceInvaderGameObjects.nodes);
         console.log(gameNode);
+        console.log(L02_SpaceInvaderGameObjects.nodes);
         L02_SpaceInvaderGameObjects.viewport.initialize("Viewport", gameNode, L02_SpaceInvaderGameObjects.cam, L02_SpaceInvaderGameObjects.canvas);
         L02_SpaceInvaderGameObjects.viewport.draw();
         fudge.Loop.start(fudge.LOOP_MODE.TIME_REAL, L02_SpaceInvaderGameObjects.FPS);
         fudge.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, handleMain);
     }
     function handleMain(_event) {
+        handleInput(_event);
         L02_SpaceInvaderGameObjects.viewport.draw();
+    }
+    function handleInput(_event) {
+        const newPosition = L02_SpaceInvaderGameObjects.speed * fudge.Loop.timeFrameReal / 100;
+        if (fudge.Keyboard.isPressedOne([fudge.KEYBOARD_CODE.A, fudge.KEYBOARD_CODE.ARROW_LEFT])) {
+            L02_SpaceInvaderGameObjects.player.MovePlayer(-newPosition);
+        }
+        if (fudge.Keyboard.isPressedOne([fudge.KEYBOARD_CODE.D, fudge.KEYBOARD_CODE.ARROW_RIGHT])) {
+            L02_SpaceInvaderGameObjects.player.MovePlayer(newPosition);
+        }
     }
 })(L02_SpaceInvaderGameObjects || (L02_SpaceInvaderGameObjects = {}));
 //# sourceMappingURL=index.js.map

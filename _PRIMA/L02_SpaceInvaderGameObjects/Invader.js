@@ -8,8 +8,8 @@ var L02_SpaceInvaderGameObjects;
             this.addComponent(new fudge.ComponentMesh(new fudge.MeshSphere()));
             this.addComponent(new fudge.ComponentMaterial(new fudge.Material("White", fudge.ShaderUniColor, new fudge.CoatColored(fudge.Color.CSS("WHITE")))));
             this.addComponent(new fudge.ComponentTransform());
-            this.getComponent(fudge.ComponentMesh).mtxPivot.translateY(_yPosition);
-            this.getComponent(fudge.ComponentMesh).mtxPivot.translateX(_xPosition);
+            this.mtxLocal.translateY(_yPosition);
+            this.mtxLocal.translateX(_xPosition);
         }
     }
     L02_SpaceInvaderGameObjects.Invader = Invader;
