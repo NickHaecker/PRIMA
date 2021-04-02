@@ -97,7 +97,7 @@ namespace L02_SpaceInvaderGameObjects {
         handleInput(_event);
         viewport.draw();
     }
-    function handleInput(_event: Event): void {
+    function handleInput(_event: Event | KeyboardEvent): void {
         const newPosition: number = speed * fudge.Loop.timeFrameReal / 100;
         if (fudge.Keyboard.isPressedOne([fudge.KEYBOARD_CODE.A, fudge.KEYBOARD_CODE.ARROW_LEFT])) {
             player.MovePlayer(-newPosition);
