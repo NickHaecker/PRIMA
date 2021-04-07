@@ -11,6 +11,7 @@ var L02_SpaceInvaderGameObjects;
     L02_SpaceInvaderGameObjects.cam.mtxPivot.translateY(7);
     L02_SpaceInvaderGameObjects.startX = -3;
     L02_SpaceInvaderGameObjects.speed = 1;
+    L02_SpaceInvaderGameObjects.projectiles = [];
     function GetNode(name) {
         const response = L02_SpaceInvaderGameObjects.nodes[name];
         if (response) {
@@ -57,7 +58,8 @@ var L02_SpaceInvaderGameObjects;
         }
     }
     function InitStructure() {
-        AddNodes(["Game", "Character", "Shields", "Enemy", "Alienship", "Enemies"]);
+        AddNodes(["Game", "Character", "Shields", "Enemy", "Alienship", "Enemies", "Projectiles"]);
+        AddChildByString("Game", "Projectiles");
         AddChildByString("Game", "Character");
         AddChildByString("Game", "Shields");
         AddChildByString("Game", "Enemy");
@@ -82,7 +84,9 @@ var L02_SpaceInvaderGameObjects;
         fudge.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, handleMain);
     }
     function handleMain(_event) {
+        window.addEventListener("keydown", handleInput);
         handleInput(_event);
+        MovementController();
         L02_SpaceInvaderGameObjects.viewport.draw();
     }
     function handleInput(_event) {
@@ -93,6 +97,20 @@ var L02_SpaceInvaderGameObjects;
         if (fudge.Keyboard.isPressedOne([fudge.KEYBOARD_CODE.D, fudge.KEYBOARD_CODE.ARROW_RIGHT])) {
             L02_SpaceInvaderGameObjects.player.MovePlayer(newPosition);
         }
+        if (_event?.type === "keydown") {
+            const _e = _event;
+            if (_e.code === "Space") {
+                const projectile = L02_SpaceInvaderGameObjects.player.ShootProjectile();
+                AddChildByNode("Projectiles", projectile);
+                L02_SpaceInvaderGameObjects.projectiles.push(projectile);
+            }
+        }
+    }
+    function MovementController() {
+        const newPosition = L02_SpaceInvaderGameObjects.speed * fudge.Loop.timeFrameReal / 100;
+        L02_SpaceInvaderGameObjects.projectiles.forEach((item) => {
+            item.MoveProjectile(newPosition);
+        });
     }
 })(L02_SpaceInvaderGameObjects || (L02_SpaceInvaderGameObjects = {}));
 //# sourceMappingURL=index.js.map

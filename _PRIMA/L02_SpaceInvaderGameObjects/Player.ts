@@ -17,5 +17,8 @@ namespace L02_SpaceInvaderGameObjects {
         public MovePlayer(pos: number): void {
             this.mtxLocal.translateX(pos);
         }
+        public ShootProjectile(): Projectile {
+            return new Projectile(this);
+        }
     }
 }

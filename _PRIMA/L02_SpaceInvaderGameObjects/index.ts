@@ -11,12 +11,12 @@ namespace L02_SpaceInvaderGameObjects {
     export const startX: number = -3;
     export const speed: number = 1;
     export let player: Player;
-
+    export  const projectiles : Projectile[]=[]
     function GetNode(name: string): fudge.Node {
         const response: fudge.Node = nodes[name];
         if (response) {
             return response;
-        } else {
+        } else {          
             AddNodes([name]);
             return GetNode(name);
         }
@@ -60,7 +60,8 @@ namespace L02_SpaceInvaderGameObjects {
         }
     }
     function InitStructure(): void {
-        AddNodes(["Game", "Character", "Shields", "Enemy", "Alienship", "Enemies"]);
+        AddNodes(["Game", "Character", "Shields", "Enemy", "Alienship", "Enemies", "Projectiles"]);
+        AddChildByString("Game", "Projectiles");
         AddChildByString("Game", "Character");
         AddChildByString("Game", "Shields");
         AddChildByString("Game", "Enemy");
@@ -94,7 +95,9 @@ namespace L02_SpaceInvaderGameObjects {
     }
 
     function handleMain(_event: Event): void {
+        window.addEventListener("keydown", handleInput);
         handleInput(_event);
+        MovementController();
         viewport.draw();
     }
     function handleInput(_event: Event | KeyboardEvent): void {
@@ -105,5 +108,19 @@ namespace L02_SpaceInvaderGameObjects {
         if (fudge.Keyboard.isPressedOne([fudge.KEYBOARD_CODE.D, fudge.KEYBOARD_CODE.ARROW_RIGHT])) {
             player.MovePlayer(newPosition);
         }
+        if (_event?.type === "keydown") {
+            const _e: KeyboardEvent = _event as KeyboardEvent;
+            if (_e.code === "Space") {
+                const projectile: Projectile = player.ShootProjectile();
+                AddChildByNode("Projectiles", projectile);
+                projectiles.push(projectile);
+            }
+        }
+    }
+    function MovementController(): void {
+           const newPosition: number = speed * fudge.Loop.timeFrameReal / 100;
+           projectiles.forEach((item: Projectile) => {
+               item.MoveProjectile(newPosition);
+        });
     }
 }

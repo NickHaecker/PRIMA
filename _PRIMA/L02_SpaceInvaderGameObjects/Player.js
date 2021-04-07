@@ -19,6 +19,9 @@ var L02_SpaceInvaderGameObjects;
         MovePlayer(pos) {
             this.mtxLocal.translateX(pos);
         }
+        ShootProjectile() {
+            return new L02_SpaceInvaderGameObjects.Projectile(this);
+        }
     }
     L02_SpaceInvaderGameObjects.Player = Player;
 })(L02_SpaceInvaderGameObjects || (L02_SpaceInvaderGameObjects = {}));
