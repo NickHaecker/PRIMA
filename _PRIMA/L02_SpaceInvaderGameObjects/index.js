@@ -12,7 +12,6 @@ var L02_SpaceInvaderGameObjects;
     L02_SpaceInvaderGameObjects.startX = -3;
     L02_SpaceInvaderGameObjects.speed = 1;
     L02_SpaceInvaderGameObjects.projectiles = [];
-    window.addEventListener("keydown", handleInput);
     function GetNode(name) {
         const response = L02_SpaceInvaderGameObjects.nodes[name];
         if (response) {
@@ -68,7 +67,7 @@ var L02_SpaceInvaderGameObjects;
         AddChildByString("Enemy", "Enemies");
     }
     window.addEventListener("load", handleLoad);
-    // window.addEventListener("keydown", handleInput);
+    window.addEventListener("keydown", handleInput);
     function handleLoad(_event) {
         L02_SpaceInvaderGameObjects.canvas = document.querySelector("canvas");
         InitStructure();

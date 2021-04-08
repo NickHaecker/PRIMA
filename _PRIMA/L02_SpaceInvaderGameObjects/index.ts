@@ -12,7 +12,7 @@ namespace L02_SpaceInvaderGameObjects {
     export const speed: number = 1;
     export let player: Player;
     export const projectiles: Projectile[] = [];
-    window.addEventListener("keydown", handleInput);
+   
     function GetNode(name: string): fudge.Node {
         const response: fudge.Node = nodes[name];
         if (response) {
@@ -70,7 +70,7 @@ namespace L02_SpaceInvaderGameObjects {
         AddChildByString("Enemy", "Enemies");
     }
     window.addEventListener("load", handleLoad);
-    // window.addEventListener("keydown", handleInput);
+    window.addEventListener("keydown", handleInput);
     function handleLoad(_event: Event): void {
         canvas = document.querySelector("canvas");
         InitStructure();
