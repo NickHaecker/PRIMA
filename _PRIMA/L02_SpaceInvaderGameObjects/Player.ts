@@ -1,11 +1,10 @@
 namespace L02_SpaceInvaderGameObjects {
     import fudge = FudgeCore;
-    export class Player extends fudge.Node {
+    export class Player extends QuadNode {
         constructor() {
-            super("Player");
+            super("Player", 0, 0, 1, 1);
             this.addComponent(new fudge.ComponentMesh(new fudge.MeshQuad()));
             this.addComponent(new fudge.ComponentMaterial(new fudge.Material("White", fudge.ShaderUniColor, new fudge.CoatColored(fudge.Color.CSS("WHITE")))));
-            this.addComponent(new fudge.ComponentTransform());
             const head: fudge.Node = new fudge.Node("Head");
             head.addComponent(new fudge.ComponentMesh(new fudge.MeshQuad()));
             head.addComponent(new fudge.ComponentMaterial(new fudge.Material("White", fudge.ShaderUniColor, new fudge.CoatColored(fudge.Color.CSS("WHITE")))));

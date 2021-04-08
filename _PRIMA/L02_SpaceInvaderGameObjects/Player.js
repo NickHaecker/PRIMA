@@ -2,12 +2,11 @@
 var L02_SpaceInvaderGameObjects;
 (function (L02_SpaceInvaderGameObjects) {
     var fudge = FudgeCore;
-    class Player extends fudge.Node {
+    class Player extends L02_SpaceInvaderGameObjects.QuadNode {
         constructor() {
-            super("Player");
+            super("Player", 0, 0, 1, 1);
             this.addComponent(new fudge.ComponentMesh(new fudge.MeshQuad()));
             this.addComponent(new fudge.ComponentMaterial(new fudge.Material("White", fudge.ShaderUniColor, new fudge.CoatColored(fudge.Color.CSS("WHITE")))));
-            this.addComponent(new fudge.ComponentTransform());
             const head = new fudge.Node("Head");
             head.addComponent(new fudge.ComponentMesh(new fudge.MeshQuad()));
             head.addComponent(new fudge.ComponentMaterial(new fudge.Material("White", fudge.ShaderUniColor, new fudge.CoatColored(fudge.Color.CSS("WHITE")))));

@@ -83,10 +83,12 @@ var L02_SpaceInvaderGameObjects;
         L02_SpaceInvaderGameObjects.viewport.draw();
         fudge.Loop.start(fudge.LOOP_MODE.TIME_REAL, L02_SpaceInvaderGameObjects.FPS);
         fudge.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, handleMain);
+        console.log(gameNode);
     }
     function handleMain(_event) {
         handleInput(_event);
         MovementController();
+        CollisionDetection();
         L02_SpaceInvaderGameObjects.viewport.draw();
     }
     function handleInput(_event) {
@@ -117,6 +119,24 @@ var L02_SpaceInvaderGameObjects;
             }
             else {
                 GetNode("Projectiles").removeChild(projectile);
+            }
+        }
+    }
+    function CollisionDetection() {
+        for (let projectile of GetNode("Projectiles").getChildren()) {
+            for (let invader of GetNode("Enemies").getChildren()) {
+                if (projectile.checkCollision(invader)) {
+                    GetNode("Projectiles").removeChild(projectile);
+                    GetNode("Enemies").removeChild(invader);
+                }
+            }
+            for (let shield of GetNode("Shields").getChildren()) {
+                for (let stripe of shield.getChildren()) {
+                    if (projectile.checkCollision(stripe)) {
+                        GetNode("Projectiles").removeChild(projectile);
+                        shield.removeChild(stripe);
+                    }
+                }
             }
         }
     }

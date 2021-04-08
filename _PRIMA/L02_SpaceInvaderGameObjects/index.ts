@@ -93,11 +93,13 @@ namespace L02_SpaceInvaderGameObjects {
         viewport.draw();
         fudge.Loop.start(fudge.LOOP_MODE.TIME_REAL, FPS);
         fudge.Loop.addEventListener(fudge.EVENT.LOOP_FRAME, handleMain);
+        console.log(gameNode);
     }
 
     function handleMain(_event: Event): void {
         handleInput(_event);
         MovementController();
+        CollisionDetection();
         viewport.draw();
     }
     function handleInput(_event: Event | KeyboardEvent): void {
@@ -127,6 +129,24 @@ namespace L02_SpaceInvaderGameObjects {
                 }
             } else {
                 GetNode("Projectiles").removeChild(projectile);
+            }
+        }
+    }
+    function CollisionDetection(): void {
+        for (let projectile of GetNode("Projectiles").getChildren() as Projectile[]) {
+            for (let invader of GetNode("Enemies").getChildren() as Invader[]) {
+                if (projectile.checkCollision(invader)) {
+                    GetNode("Projectiles").removeChild(projectile);
+                    GetNode("Enemies").removeChild(invader);
+                }
+            }
+            for (let shield of GetNode("Shields").getChildren() as Shield[]) {
+                for (let stripe of shield.getChildren() as SubShield[]) {
+                    if (projectile.checkCollision(stripe)) {
+                        GetNode("Projectiles").removeChild(projectile);
+                        shield.removeChild(stripe);
+                    }
+                }
             }
         }
     }
