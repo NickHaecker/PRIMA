@@ -4,7 +4,6 @@ namespace L02_SpaceInvaderGameObjects {
         private gunner: fudge.Node;
         constructor(_gunner: fudge.Node) {
             super(`Projectile-${_gunner.name}`);
-            console.log(`Projectile-${_gunner.name}`)
             this.gunner = _gunner;
             this.addComponent(new fudge.ComponentMesh(new fudge.MeshQuad()));
             this.addComponent(new fudge.ComponentMaterial(new fudge.Material("White", fudge.ShaderUniColor, new fudge.CoatColored(fudge.Color.CSS("WHITE")))));
@@ -23,7 +22,7 @@ namespace L02_SpaceInvaderGameObjects {
         private deleteProjectile(): void {
             setTimeout(() => {
                 this.activate(false);
-            },         3000);
+            },         2000);
         }
     }
 }

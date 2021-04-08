@@ -118,13 +118,16 @@ namespace L02_SpaceInvaderGameObjects {
     }
     function MovementController(): void {
         const newPosition: number = speed * fudge.Loop.timeFrameReal / 100;
-        GetNode("Projectiles").getChildren().forEach((item: fudge.Node) => {
-            const i: Projectile = item as Projectile;
-            if (i.isActive) {
-                i.MoveProjectile(newPosition);
+        for (let projectile of GetNode("Projectiles").getChildren() as Projectile[]) {
+            if (projectile.isActive) {
+                switch (projectile.getGunner().name) {
+                    default:
+                        projectile.MoveProjectile(newPosition);
+                        break;
+                }
             } else {
-                GetNode("Projectiles").removeChild(i);
+                GetNode("Projectiles").removeChild(projectile);
             }
-        });
+        }
     }
 }

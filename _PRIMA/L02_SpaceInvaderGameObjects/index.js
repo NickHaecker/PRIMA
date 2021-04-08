@@ -107,15 +107,18 @@ var L02_SpaceInvaderGameObjects;
     }
     function MovementController() {
         const newPosition = L02_SpaceInvaderGameObjects.speed * fudge.Loop.timeFrameReal / 100;
-        GetNode("Projectiles").getChildren().forEach((item) => {
-            const i = item;
-            if (i.isActive) {
-                i.MoveProjectile(newPosition);
+        for (let projectile of GetNode("Projectiles").getChildren()) {
+            if (projectile.isActive) {
+                switch (projectile.getGunner().name) {
+                    default:
+                        projectile.MoveProjectile(newPosition);
+                        break;
+                }
             }
             else {
-                GetNode("Projectiles").removeChild(i);
+                GetNode("Projectiles").removeChild(projectile);
             }
-        });
+        }
     }
 })(L02_SpaceInvaderGameObjects || (L02_SpaceInvaderGameObjects = {}));
 //# sourceMappingURL=index.js.map
