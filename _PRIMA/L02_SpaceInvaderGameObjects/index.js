@@ -12,6 +12,7 @@ var L02_SpaceInvaderGameObjects;
     L02_SpaceInvaderGameObjects.startX = -3;
     L02_SpaceInvaderGameObjects.speed = 1;
     L02_SpaceInvaderGameObjects.projectiles = [];
+    window.addEventListener("keydown", handleInput);
     function GetNode(name) {
         const response = L02_SpaceInvaderGameObjects.nodes[name];
         if (response) {
@@ -84,7 +85,6 @@ var L02_SpaceInvaderGameObjects;
         fudge.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, handleMain);
     }
     function handleMain(_event) {
-        window.addEventListener("keydown", handleInput);
         handleInput(_event);
         MovementController();
         L02_SpaceInvaderGameObjects.viewport.draw();
@@ -99,17 +99,22 @@ var L02_SpaceInvaderGameObjects;
         }
         if (_event?.type === "keydown") {
             const _e = _event;
-            if (_e.code === "Space") {
+            if (_e.code === "Space" && GetNode("Projectiles").nChildren === 0) {
                 const projectile = L02_SpaceInvaderGameObjects.player.ShootProjectile();
                 AddChildByNode("Projectiles", projectile);
-                L02_SpaceInvaderGameObjects.projectiles.push(projectile);
             }
         }
     }
     function MovementController() {
         const newPosition = L02_SpaceInvaderGameObjects.speed * fudge.Loop.timeFrameReal / 100;
-        L02_SpaceInvaderGameObjects.projectiles.forEach((item) => {
-            item.MoveProjectile(newPosition);
+        GetNode("Projectiles").getChildren().forEach((item) => {
+            const i = item;
+            if (i.isActive) {
+                i.MoveProjectile(newPosition);
+            }
+            else {
+                GetNode("Projectiles").removeChild(i);
+            }
         });
     }
 })(L02_SpaceInvaderGameObjects || (L02_SpaceInvaderGameObjects = {}));

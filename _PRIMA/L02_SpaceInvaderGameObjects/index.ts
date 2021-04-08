@@ -11,12 +11,13 @@ namespace L02_SpaceInvaderGameObjects {
     export const startX: number = -3;
     export const speed: number = 1;
     export let player: Player;
-    export  const projectiles : Projectile[]=[]
+    export const projectiles: Projectile[] = [];
+    window.addEventListener("keydown", handleInput);
     function GetNode(name: string): fudge.Node {
         const response: fudge.Node = nodes[name];
         if (response) {
             return response;
-        } else {          
+        } else {
             AddNodes([name]);
             return GetNode(name);
         }
@@ -95,7 +96,6 @@ namespace L02_SpaceInvaderGameObjects {
     }
 
     function handleMain(_event: Event): void {
-        window.addEventListener("keydown", handleInput);
         handleInput(_event);
         MovementController();
         viewport.draw();
@@ -110,17 +110,21 @@ namespace L02_SpaceInvaderGameObjects {
         }
         if (_event?.type === "keydown") {
             const _e: KeyboardEvent = _event as KeyboardEvent;
-            if (_e.code === "Space") {
+            if (_e.code === "Space" && GetNode("Projectiles").nChildren === 0) {
                 const projectile: Projectile = player.ShootProjectile();
                 AddChildByNode("Projectiles", projectile);
-                projectiles.push(projectile);
             }
         }
     }
     function MovementController(): void {
-           const newPosition: number = speed * fudge.Loop.timeFrameReal / 100;
-           projectiles.forEach((item: Projectile) => {
-               item.MoveProjectile(newPosition);
+        const newPosition: number = speed * fudge.Loop.timeFrameReal / 100;
+        GetNode("Projectiles").getChildren().forEach((item: fudge.Node) => {
+            const i: Projectile = item as Projectile;
+            if (i.isActive) {
+                i.MoveProjectile(newPosition);
+            } else {
+                GetNode("Projectiles").removeChild(i);
+            }
         });
     }
 }
