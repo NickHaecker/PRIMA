@@ -10,6 +10,17 @@ var L02_SpaceInvaderGameObjects;
             this.mtxLocal.translateY(_yPosition);
             this.mtxLocal.translateX(_xPosition);
         }
+        moveInvader(newPosition) {
+            console.log(`position to: ${newPosition}`);
+            console.log(`current: ${this.mtxLocal.translation}`);
+            this.mtxLocal.translate(newPosition);
+            this.setRectPosition();
+        }
+        move(direction) {
+            let timeSinceLastFrame = fudge.Loop.timeFrameReal / 1000;
+            this.mtxLocal.translateX(timeSinceLastFrame * direction);
+            this.setRectPosition();
+        }
     }
     L02_SpaceInvaderGameObjects.Invader = Invader;
 })(L02_SpaceInvaderGameObjects || (L02_SpaceInvaderGameObjects = {}));

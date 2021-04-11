@@ -8,5 +8,16 @@ namespace L02_SpaceInvaderGameObjects {
             this.mtxLocal.translateY(_yPosition);
             this.mtxLocal.translateX(_xPosition);
         }
+        public moveInvader(newPosition: fudge.Vector3): void {
+            console.log(`position to: ${newPosition}`);
+            console.log(`current: ${this.mtxLocal.translation}`)
+            this.mtxLocal.translate(newPosition);
+            this.setRectPosition();
+        }
+        public move(direction: number): void {
+            let timeSinceLastFrame: number = fudge.Loop.timeFrameReal / 1000;
+            this.mtxLocal.translateX(timeSinceLastFrame * direction);
+            this.setRectPosition();
+        }
     }
 }

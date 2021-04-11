@@ -12,7 +12,10 @@ namespace L02_SpaceInvaderGameObjects {
     export const speed: number = 1;
     export let player: Player;
     export const projectiles: Projectile[] = [];
-   
+    const wandLeft: number = -7;
+    const wandRight: number = 7;
+    let direction: number = 1;
+
     function GetNode(name: string): fudge.Node {
         const response: fudge.Node = nodes[name];
         if (response) {
@@ -131,13 +134,34 @@ namespace L02_SpaceInvaderGameObjects {
                 GetNode("Projectiles").removeChild(projectile);
             }
         }
+
+        for (let invader of GetNode("Enemies").getChildren() as Invader[]) {
+            if (invader.mtxLocal.translation.x <= wandLeft) {
+                direction = direction * -1;
+                for (let i of GetNode("Enemies").getChildren() as Invader[]) {
+                    i.mtxLocal.translateX(0.1);
+                    i.setRectPosition();
+                }
+            }
+            if (invader.mtxLocal.translation.x >= wandRight) {
+                direction = direction * -1;
+                for (let i of GetNode("Enemies").getChildren() as Invader[]) {
+                    i.mtxLocal.translateX(-0.1);
+                    i.setRectPosition();
+                }
+            }
+            invader.move(direction);
+
+        }
     }
+    // function getWall
     function CollisionDetection(): void {
         for (let projectile of GetNode("Projectiles").getChildren() as Projectile[]) {
             for (let invader of GetNode("Enemies").getChildren() as Invader[]) {
                 if (projectile.checkCollision(invader)) {
                     GetNode("Projectiles").removeChild(projectile);
-                    GetNode("Enemies").removeChild(invader);
+                    MoveInvader(invader);
+                    // GetNode("Enemies").removeChild(invader);
                 }
             }
             for (let shield of GetNode("Shields").getChildren() as Shield[]) {
@@ -149,5 +173,37 @@ namespace L02_SpaceInvaderGameObjects {
                 }
             }
         }
+    }
+    function MoveInvader(currentInvader: Invader): void {
+        // console.log(currentInvader.name);
+        // const invaders: Invader[] = GetNode("Enemies").getChildren().reverse() as Invader[]
+        // for (let i: number = 0; i < GetNode("Enemies").nChildren; i++) {
+        //     const invader: Invader = invaders[i];
+        //     if (invader) {
+        //         if (invader.name === currentInvader.name) {
+        //             const currentIndex: number = i;
+        //             console.log(currentIndex)
+        //             for (let index: number = currentIndex; index > 0; index--) {
+        //                 // console.log(invader)
+        //                 if (index <= 5) {
+        //                     // console.log("first row", index)
+        //                 }
+        //                 else if (index >= 6 && index <= 10) {
+        //                     // console.log("second row", index)
+        //                 }
+        //                 else if (index >= 11 && index <= 15) {
+        //                     // console.log("third row", index)
+        //                 } else {
+        //                     // console.log("fourth row", index)
+
+
+        //                 }
+        //             }
+
+        //         }
+        //     }
+
+        // }
+        GetNode("Enemies").removeChild(currentInvader);
     }
 }
