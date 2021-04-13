@@ -80,13 +80,10 @@ var L02_SpaceInvaderGameObjects;
         InitEnemies(4, 6);
         L02_SpaceInvaderGameObjects.player = GetNode("Character").getChildrenByName("Player")[0];
         const gameNode = GetNode("Game");
-        console.log(gameNode);
-        console.log(L02_SpaceInvaderGameObjects.nodes);
         L02_SpaceInvaderGameObjects.viewport.initialize("Viewport", gameNode, L02_SpaceInvaderGameObjects.cam, L02_SpaceInvaderGameObjects.canvas);
         L02_SpaceInvaderGameObjects.viewport.draw();
         fudge.Loop.start(fudge.LOOP_MODE.TIME_REAL, L02_SpaceInvaderGameObjects.FPS);
         fudge.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, handleMain);
-        console.log(gameNode);
     }
     function handleMain(_event) {
         handleInput(_event);
@@ -96,10 +93,10 @@ var L02_SpaceInvaderGameObjects;
     }
     function handleInput(_event) {
         const newPosition = L02_SpaceInvaderGameObjects.speed * fudge.Loop.timeFrameReal / 100;
-        if (fudge.Keyboard.isPressedOne([fudge.KEYBOARD_CODE.A, fudge.KEYBOARD_CODE.ARROW_LEFT])) {
+        if (fudge.Keyboard.isPressedOne([fudge.KEYBOARD_CODE.A, fudge.KEYBOARD_CODE.ARROW_LEFT]) && L02_SpaceInvaderGameObjects.player.mtxLocal.translation.x >= wandLeft) {
             L02_SpaceInvaderGameObjects.player.MovePlayer(-newPosition);
         }
-        if (fudge.Keyboard.isPressedOne([fudge.KEYBOARD_CODE.D, fudge.KEYBOARD_CODE.ARROW_RIGHT])) {
+        if (fudge.Keyboard.isPressedOne([fudge.KEYBOARD_CODE.D, fudge.KEYBOARD_CODE.ARROW_RIGHT]) && L02_SpaceInvaderGameObjects.player.mtxLocal.translation.x <= wandRight) {
             L02_SpaceInvaderGameObjects.player.MovePlayer(newPosition);
         }
         if (_event?.type === "keydown") {
@@ -144,14 +141,12 @@ var L02_SpaceInvaderGameObjects;
             invader.move(direction);
         }
     }
-    // function getWall
     function CollisionDetection() {
         for (let projectile of GetNode("Projectiles").getChildren()) {
             for (let invader of GetNode("Enemies").getChildren()) {
                 if (projectile.checkCollision(invader)) {
                     GetNode("Projectiles").removeChild(projectile);
-                    MoveInvader(invader);
-                    // GetNode("Enemies").removeChild(invader);
+                    GetNode("Enemies").removeChild(invader);
                 }
             }
             for (let shield of GetNode("Shields").getChildren()) {
@@ -163,34 +158,6 @@ var L02_SpaceInvaderGameObjects;
                 }
             }
         }
-    }
-    function MoveInvader(currentInvader) {
-        // console.log(currentInvader.name);
-        // const invaders: Invader[] = GetNode("Enemies").getChildren().reverse() as Invader[]
-        // for (let i: number = 0; i < GetNode("Enemies").nChildren; i++) {
-        //     const invader: Invader = invaders[i];
-        //     if (invader) {
-        //         if (invader.name === currentInvader.name) {
-        //             const currentIndex: number = i;
-        //             console.log(currentIndex)
-        //             for (let index: number = currentIndex; index > 0; index--) {
-        //                 // console.log(invader)
-        //                 if (index <= 5) {
-        //                     // console.log("first row", index)
-        //                 }
-        //                 else if (index >= 6 && index <= 10) {
-        //                     // console.log("second row", index)
-        //                 }
-        //                 else if (index >= 11 && index <= 15) {
-        //                     // console.log("third row", index)
-        //                 } else {
-        //                     // console.log("fourth row", index)
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
-        GetNode("Enemies").removeChild(currentInvader);
     }
 })(L02_SpaceInvaderGameObjects || (L02_SpaceInvaderGameObjects = {}));
 //# sourceMappingURL=index.js.map

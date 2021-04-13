@@ -25,7 +25,6 @@ namespace L02_SpaceInvaderGameObjects {
             return GetNode(name);
         }
     }
-
     function AddNodes(names: string[]): void {
         names.forEach((item: string) => {
             nodes[item] = new fudge.Node(item);
@@ -34,7 +33,6 @@ namespace L02_SpaceInvaderGameObjects {
     function AddNode(node: fudge.Node): void {
         nodes[node.name] = node;
     }
-
     function AddChildByString(parent: string, child: string): void {
         const parentNode: fudge.Node = GetNode(parent);
         const childNode: fudge.Node = GetNode(child);
@@ -55,7 +53,6 @@ namespace L02_SpaceInvaderGameObjects {
             AddChildByNode("Shields", new Shield(x + (4 * i), startY, 4));
         }
     }
-
     function InitEnemies(rows: number, columns: number): void {
         const startY: number = 16;
         for (let y: number = rows; y > 0; y--) {
@@ -81,25 +78,13 @@ namespace L02_SpaceInvaderGameObjects {
         InitPlayer();
         InitShields(4);
         InitEnemies(4, 6);
-
-
-
-
-
         player = GetNode("Character").getChildrenByName("Player")[0] as Player;
-
         const gameNode: fudge.Node = GetNode("Game");
-        console.log(gameNode);
-        console.log(nodes);
-
-
         viewport.initialize("Viewport", gameNode, cam, canvas);
         viewport.draw();
         fudge.Loop.start(fudge.LOOP_MODE.TIME_REAL, FPS);
         fudge.Loop.addEventListener(fudge.EVENT.LOOP_FRAME, handleMain);
-        console.log(gameNode);
     }
-
     function handleMain(_event: Event): void {
         handleInput(_event);
         MovementController();
@@ -108,10 +93,10 @@ namespace L02_SpaceInvaderGameObjects {
     }
     function handleInput(_event: Event | KeyboardEvent): void {
         const newPosition: number = speed * fudge.Loop.timeFrameReal / 100;
-        if (fudge.Keyboard.isPressedOne([fudge.KEYBOARD_CODE.A, fudge.KEYBOARD_CODE.ARROW_LEFT])) {
+        if (fudge.Keyboard.isPressedOne([fudge.KEYBOARD_CODE.A, fudge.KEYBOARD_CODE.ARROW_LEFT]) && player.mtxLocal.translation.x >= wandLeft) {
             player.MovePlayer(-newPosition);
         }
-        if (fudge.Keyboard.isPressedOne([fudge.KEYBOARD_CODE.D, fudge.KEYBOARD_CODE.ARROW_RIGHT])) {
+        if (fudge.Keyboard.isPressedOne([fudge.KEYBOARD_CODE.D, fudge.KEYBOARD_CODE.ARROW_RIGHT]) && player.mtxLocal.translation.x <= wandRight) {
             player.MovePlayer(newPosition);
         }
         if (_event?.type === "keydown") {
@@ -135,7 +120,6 @@ namespace L02_SpaceInvaderGameObjects {
                 GetNode("Projectiles").removeChild(projectile);
             }
         }
-
         for (let invader of GetNode("Enemies").getChildren() as Invader[]) {
             if (invader.mtxLocal.translation.x <= wandLeft) {
                 direction = direction * -1;
@@ -158,14 +142,12 @@ namespace L02_SpaceInvaderGameObjects {
 
         }
     }
-    // function getWall
     function CollisionDetection(): void {
         for (let projectile of GetNode("Projectiles").getChildren() as Projectile[]) {
             for (let invader of GetNode("Enemies").getChildren() as Invader[]) {
                 if (projectile.checkCollision(invader)) {
                     GetNode("Projectiles").removeChild(projectile);
-                    MoveInvader(invader);
-                    // GetNode("Enemies").removeChild(invader);
+                    GetNode("Enemies").removeChild(invader);
                 }
             }
             for (let shield of GetNode("Shields").getChildren() as Shield[]) {
@@ -177,37 +159,5 @@ namespace L02_SpaceInvaderGameObjects {
                 }
             }
         }
-    }
-    function MoveInvader(currentInvader: Invader): void {
-        // console.log(currentInvader.name);
-        // const invaders: Invader[] = GetNode("Enemies").getChildren().reverse() as Invader[]
-        // for (let i: number = 0; i < GetNode("Enemies").nChildren; i++) {
-        //     const invader: Invader = invaders[i];
-        //     if (invader) {
-        //         if (invader.name === currentInvader.name) {
-        //             const currentIndex: number = i;
-        //             console.log(currentIndex)
-        //             for (let index: number = currentIndex; index > 0; index--) {
-        //                 // console.log(invader)
-        //                 if (index <= 5) {
-        //                     // console.log("first row", index)
-        //                 }
-        //                 else if (index >= 6 && index <= 10) {
-        //                     // console.log("second row", index)
-        //                 }
-        //                 else if (index >= 11 && index <= 15) {
-        //                     // console.log("third row", index)
-        //                 } else {
-        //                     // console.log("fourth row", index)
-
-
-        //                 }
-        //             }
-
-        //         }
-        //     }
-
-        // }
-        GetNode("Enemies").removeChild(currentInvader);
     }
 }
