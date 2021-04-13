@@ -50,7 +50,7 @@ namespace L02_SpaceInvaderGameObjects {
     }
     function InitShields(shieldAmount: number): void {
         const startY: number = 3;
-        const x:number = -6
+        const x: number = -6;
         for (let i: number = 0; i < shieldAmount; i++) {
             AddChildByNode("Shields", new Shield(x + (4 * i), startY, 4));
         }

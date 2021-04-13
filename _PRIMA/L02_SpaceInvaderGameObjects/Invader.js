@@ -11,8 +11,6 @@ var L02_SpaceInvaderGameObjects;
             this.mtxLocal.translateX(_xPosition);
         }
         moveInvader(newPosition) {
-            console.log(`position to: ${newPosition}`);
-            console.log(`current: ${this.mtxLocal.translation}`);
             this.mtxLocal.translate(newPosition);
             this.setRectPosition();
         }
