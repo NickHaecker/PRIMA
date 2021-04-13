@@ -9,7 +9,7 @@ var L02_SpaceInvaderGameObjects;
     L02_SpaceInvaderGameObjects.cam.mtxPivot.translateZ(33);
     L02_SpaceInvaderGameObjects.cam.mtxPivot.rotateY(180);
     L02_SpaceInvaderGameObjects.cam.mtxPivot.translateY(7);
-    L02_SpaceInvaderGameObjects.startX = -3;
+    L02_SpaceInvaderGameObjects.startX = -6;
     L02_SpaceInvaderGameObjects.speed = 1;
     L02_SpaceInvaderGameObjects.projectiles = [];
     const wandLeft = -7;
@@ -47,9 +47,9 @@ var L02_SpaceInvaderGameObjects;
         AddChildByNode("Character", new L02_SpaceInvaderGameObjects.Player());
     }
     function InitShields(shieldAmount) {
-        const startY = 2;
+        const startY = 3;
         for (let i = 0; i < shieldAmount; i++) {
-            AddChildByNode("Shields", new L02_SpaceInvaderGameObjects.Shield(L02_SpaceInvaderGameObjects.startX + (2 * i), startY, 4));
+            AddChildByNode("Shields", new L02_SpaceInvaderGameObjects.Shield(L02_SpaceInvaderGameObjects.startX + (4 * i), startY, 4));
         }
     }
     function InitEnemies(rows, columns) {

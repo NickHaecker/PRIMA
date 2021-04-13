@@ -8,7 +8,7 @@ namespace L02_SpaceInvaderGameObjects {
     cam.mtxPivot.translateZ(33);
     cam.mtxPivot.rotateY(180);
     cam.mtxPivot.translateY(7);
-    export const startX: number = -3;
+    export const startX: number = -6;
     export const speed: number = 1;
     export let player: Player;
     export const projectiles: Projectile[] = [];
@@ -49,9 +49,9 @@ namespace L02_SpaceInvaderGameObjects {
         AddChildByNode("Character", new Player());
     }
     function InitShields(shieldAmount: number): void {
-        const startY: number = 2;
+        const startY: number = 3;
         for (let i: number = 0; i < shieldAmount; i++) {
-            AddChildByNode("Shields", new Shield(startX + (2 * i), startY, 4));
+            AddChildByNode("Shields", new Shield(startX + (4 * i), startY, 4));
         }
     }
 

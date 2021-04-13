@@ -11,8 +11,7 @@ var L02_SpaceInvaderGameObjects;
             if (subShields % 2 === 0) {
                 for (let x = 0; x < subShields / 2; x++) {
                     for (let y = 0; y < subShields / 2; y++) {
-                        const subShield = new L02_SpaceInvaderGameObjects.SubShield(_xPosition + (-0.5 + x), _yPosition + (-0.5 + y));
-                        this.addChild(subShield);
+                        this.addChild(new L02_SpaceInvaderGameObjects.SubShield(this.mtxWorld.translation.x + (-0.5 + x), this.mtxWorld.translation.y + (-0.5 + y)));
                     }
                 }
             }

@@ -9,11 +9,11 @@ namespace L02_SpaceInvaderGameObjects {
             if (subShields % 2 === 0) {
                 for (let x: number = 0; x < subShields / 2; x++) {
                     for (let y: number = 0; y < subShields / 2; y++) {
-                        const subShield: SubShield = new SubShield(_xPosition + (-0.5 + x), _yPosition + (-0.5 + y));
-                        this.addChild(subShield);
+                        this.addChild(new SubShield(this.mtxWorld.translation.x + (-0.5 + x), this.mtxWorld.translation.y + (-0.5 + y)));
                     }
                 }
             }
+           
         }
     }
 }
