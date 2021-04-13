@@ -128,6 +128,7 @@ var L02_SpaceInvaderGameObjects;
                 direction = direction * -1;
                 for (let i of GetNode("Enemies").getChildren()) {
                     i.mtxLocal.translateX(0.1);
+                    i.mtxLocal.translateY(-0.1);
                     i.setRectPosition();
                 }
             }
@@ -135,6 +136,7 @@ var L02_SpaceInvaderGameObjects;
                 direction = direction * -1;
                 for (let i of GetNode("Enemies").getChildren()) {
                     i.mtxLocal.translateX(-0.1);
+                    i.mtxLocal.translateY(-0.1);
                     i.setRectPosition();
                 }
             }

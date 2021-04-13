@@ -10,6 +10,7 @@ var L02_SpaceInvaderGameObjects;
             this.mtxLocal.translateX(_xPosition);
             this.mtxLocal.translateY(_yPosition);
             this.mtxLocal.scale(new fudge.Vector3(0.8, 0.8, 0.8));
+            this.setRectPosition();
         }
     }
     L02_SpaceInvaderGameObjects.SubShield = SubShield;
