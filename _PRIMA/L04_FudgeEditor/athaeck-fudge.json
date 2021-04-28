@@ -69,5 +69,89 @@
       "idResource": "Graph|2021-04-22T15:37:52.210Z|33469",
       "type": "Graph"
     }
+  },
+  "Graph|2021-04-26T16:52:46.483Z|35099": {
+    "ƒ.Graph": {
+      "name": "athaeck",
+      "components": {
+        "ComponentMesh": [
+          {
+            "ƒ.ComponentMesh": {
+              "idMesh": "MeshCube|2021-04-26T16:53:27.676Z|91344",
+              "pivot": {
+                "translation": "[0, 0, 0]",
+                "rotation": "[0, 0, 0]",
+                "scaling": "[1, 1, 1]"
+              },
+              "Component": {
+                "active": true
+              }
+            }
+          }
+        ],
+        "ComponentMaterial": [
+          {
+            "ƒ.ComponentMaterial": {
+              "sortForAlpha": false,
+              "clrPrimary": "[1, 1, 1, 1]",
+              "clrSecondary": "[1, 1, 1, 1]",
+              "pivot": {
+                "translation": "[0, 0]",
+                "rotation": 0,
+                "scaling": "[1, 1]"
+              },
+              "Component": {
+                "active": true
+              },
+              "idMaterial": "Material|2021-04-26T16:53:33.025Z|56805"
+            }
+          }
+        ],
+        "ComponentTransform": [
+          {
+            "ƒ.ComponentTransform": {
+              "local": {
+                "translation": "[0, 0, 0]",
+                "rotation": "[0, 0, 0]",
+                "scaling": "[10, 1, 9.999999046325684]"
+              },
+              "Component": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      "children": [],
+      "idResource": "Graph|2021-04-26T16:52:46.483Z|35099",
+      "type": "Graph"
+    }
+  },
+  "MeshTerrain|2021-04-26T16:53:21.082Z|25018": {
+    "ƒ.MeshTerrain": {
+      "idResource": "MeshTerrain|2021-04-26T16:53:21.082Z|25018",
+      "name": "MeshHeightMap",
+      "type": "MeshTerrain"
+    }
+  },
+  "MeshCube|2021-04-26T16:53:27.676Z|91344": {
+    "ƒ.MeshCube": {
+      "idResource": "MeshCube|2021-04-26T16:53:27.676Z|91344",
+      "name": "MeshCube",
+      "type": "MeshCube"
+    }
+  },
+  "Material|2021-04-26T16:53:33.025Z|56805": {
+    "ƒ.Material": {
+      "name": "Green Ground",
+      "idResource": "Material|2021-04-26T16:53:33.025Z|56805",
+      "shader": "ShaderUniColor",
+      "coat": {
+        "ƒ.CoatColored": {
+          "name": "Coat",
+          "color": "[0, 1, 0, 1]"
+        }
+      }
+    }
   }
 }
