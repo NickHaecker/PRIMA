@@ -33,9 +33,24 @@ var L05;
         player.addComponent(cam);
     }
     function update(_event) {
+        let speed = 5;
+        let rotate = 1;
+        let forward;
+        forward = player.mtxWorld.getZ();
+        if (f.Keyboard.isPressedOne([f.KEYBOARD_CODE.W, f.KEYBOARD_CODE.ARROW_UP])) {
+            avatar.setVelocity(f.Vector3.SCALE(forward, speed));
+        }
+        if (f.Keyboard.isPressedOne([f.KEYBOARD_CODE.S, f.KEYBOARD_CODE.ARROW_DOWN])) {
+            avatar.setVelocity(f.Vector3.SCALE(forward, -speed));
+        }
+        if (f.Keyboard.isPressedOne([f.KEYBOARD_CODE.A, f.KEYBOARD_CODE.ARROW_LEFT])) {
+            avatar.rotateBody(f.Vector3.Y(rotate));
+        }
+        if (f.Keyboard.isPressedOne([f.KEYBOARD_CODE.D, f.KEYBOARD_CODE.ARROW_RIGHT])) {
+            avatar.rotateBody(f.Vector3.Y(-rotate));
+        }
+        // console.log(avatar)''
         f.Physics.world.simulate(f.Loop.timeFrameReal / 1000);
-        // cam.mtxPivot.translate(player.mtxWorld.translation);
-        // cam.mtxPivot.lookAt()
         viewport.draw();
         f.Physics.settings.debugDraw = true;
     }

@@ -55,5 +55,5 @@
     // "emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
     "skipLibCheck": true
   },
-  "exclude": ["W19/*", "S20/*", "W20/*", "FUDGE"]
+  "exclude": ["W19/*", "S20/*", "W20/*","L03_FudgePhysics","FUDGE"]
 }
