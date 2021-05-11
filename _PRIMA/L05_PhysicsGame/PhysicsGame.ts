@@ -11,6 +11,8 @@ namespace L05_PhysicsGame {
   let rotate: number = 3;
   let cmpCamera: f.ComponentCamera = new f.ComponentCamera();
   let avatar: f.Node = new f.Node("Avatar");
+  // let bufferX: Number = 0;
+  // let bufferY: Number = 0;
   // let ctrRotation: f.Control = new f.Control("AvatarRotation", -0.1, f.CONTROL_TYPE.PROPORTIONAL);
   // ctrRotation.setDelay(100);
   window.addEventListener("load", start);
@@ -31,8 +33,8 @@ namespace L05_PhysicsGame {
 
   
     camera.addComponent(cmpCamera);
-    // cmpCamera.mtxPivot.translate(f.Vector3.ONE(20));
-    // cmpCamera.mtxPivot.lookAt(f.Vector3.ZERO());
+    camera.addComponent(new f.ComponentTransform(new f.Matrix4x4));
+
 
     canvas = document.querySelector("canvas");
     viewport = new f.Viewport();
@@ -81,22 +83,16 @@ namespace L05_PhysicsGame {
 
     f.Physics.world.simulate(f.Loop.timeFrameReal / 1000);
 
-    //cmpCamera.mtxPivot.lookAt(ball.mtxLocal.translation);
-    // playerIsGroundedRaycast();
+
     viewport.draw();
     
     f.Physics.settings.debugDraw = true;
   }
   function mouseMove(_event: MouseEvent): void {
-    console.log(_event);
-    // ctrRotation.setInput(_event.movementX);
-    // cmpAvatar.rotateBody(f.Vector3.X( _event.movementY / 10));
-    // cmpAvatar.rotateBody(f.Vector3.Y( -1 * _event.movementX / 10 ));
-    cmpCamera.mtxPivot.rotateX(_event.movementY / 10);
-    cmpCamera.mtxPivot.rotateY(-1 * _event.movementX / 10 )
-    // cmpAvatar.
-    // avatar.mtxLocal.rotateX(_event.movementY);
-    // avatar.mtxLocal.rotateY(-1 * _event.movementX);
+
+
+    cmpAvatar.rotateBody(f.Vector3.Y(-1 * _event.movementX * speed / 10));
+    camera.mtxLocal.rotateX(_event.movementY * speed / 10);
   } 
 
   function tryGrab(): void {
