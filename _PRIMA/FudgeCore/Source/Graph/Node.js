@@ -278,6 +278,7 @@ var FudgeCore;
                 cmpList.push(_component);
             _component.setContainer(this);
             _component.dispatchEvent(new Event("componentAdd" /* COMPONENT_ADD */));
+            this.dispatchEventToTargetOnly(new CustomEvent("componentAdd" /* COMPONENT_ADD */, { detail: _component })); // TODO: see if this is be feasable
         }
         /**
          * Removes the given component from the node, if it was attached, and sets its parent to null.
@@ -291,6 +292,7 @@ var FudgeCore;
                 if (foundAt < 0)
                     return;
                 _component.dispatchEvent(new Event("componentRemove" /* COMPONENT_REMOVE */));
+                this.dispatchEventToTargetOnly(new CustomEvent("componentRemove" /* COMPONENT_REMOVE */, { detail: _component })); // TODO: see if this would be feasable
                 componentsOfType.splice(foundAt, 1);
                 _component.setContainer(null);
             }
@@ -403,12 +405,13 @@ var FudgeCore;
                 Object.defineProperty(_event, "currentTarget", { writable: true, value: ancestor });
                 this.callListeners(ancestor.captures[_event.type], _event);
             }
-            if (!_event.bubbles)
-                return true;
             // target phase
             Object.defineProperty(_event, "eventPhase", { writable: true, value: Event.AT_TARGET });
             Object.defineProperty(_event, "currentTarget", { writable: true, value: this });
+            this.callListeners(this.captures[_event.type], _event);
             this.callListeners(this.listeners[_event.type], _event);
+            if (!_event.bubbles)
+                return true;
             // bubble phase
             Object.defineProperty(_event, "eventPhase", { writable: true, value: Event.BUBBLING_PHASE });
             for (let i = 0; i < ancestors.length; i++) {
@@ -424,7 +427,7 @@ var FudgeCore;
         dispatchEventToTargetOnly(_event) {
             Object.defineProperty(_event, "eventPhase", { writable: true, value: Event.AT_TARGET });
             Object.defineProperty(_event, "currentTarget", { writable: true, value: this });
-            this.callListeners(this.listeners[_event.type], _event);
+            this.callListeners(this.listeners[_event.type], _event); // TODO: examine if this should go to the captures instead of the listeners
             return true;
         }
         /**
@@ -443,6 +446,7 @@ var FudgeCore;
             Object.defineProperty(_event, "currentTarget", { writable: true, value: this });
             let captures = this.captures[_event.type] || [];
             for (let handler of captures)
+                // @ts-ignore
                 handler(_event);
             // appears to be slower, astonishingly...
             // captures.forEach(function (handler: Function): void {
@@ -456,6 +460,7 @@ var FudgeCore;
         callListeners(_listeners, _event) {
             if (_listeners?.length > 0)
                 for (let handler of _listeners)
+                    // @ts-ignore
                     handler(_event);
         }
     }

@@ -178,7 +178,7 @@ var FudgeCore;
             let mtxRoot = FudgeCore.Matrix4x4.IDENTITY();
             if (this.#branch.getParent())
                 mtxRoot = this.#branch.getParent().mtxWorld;
-            FudgeCore.Render.prepare(this.#branch, mtxRoot);
+            FudgeCore.Render.prepare(this.#branch, null, mtxRoot);
         }
         /**
          * Adjust all frames involved in the rendering process from the display area in the client up to the renderer canvas

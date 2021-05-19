@@ -1,6 +1,27 @@
 namespace L05_PhysicsGame {
   import f = FudgeCore;
   // import fAid = FudgeAid;
+
+  export class Test extends f.ComponentScript {
+    constructor() {
+      super();
+      // this.addEventListener(f.EVENT.COMPONENT_ADD, this.handleAdd);
+      // f.Loop.addEventListener(f.Time.game.setTimer, this.handleTimer.bind(this));
+      f.Time.game.setTimer(1000, 0, this.handleTimer.bind(this));
+    }
+    public handleAdd(_event: Event): void {
+      // console.log("ADDDDDD");
+      // this.getContainer().addEventListener(f.EVENT.RENDER_PREPARE_START, (event:Event) => {
+      //   console.log("e")
+      // })
+    }
+    public handleTimer(_event: f.EventTimer): void {
+      // console.log(_event);
+      const body: f.ComponentRigidbody = this.getContainer().getComponent(f.ComponentRigidbody);
+      f.Random.default.getRangeFloored(-1, 6) === 0 ? body.setVelocity(new f.Vector3(0, 10, 0)) : console.log("df");
+    }
+  }
+
   let root: f.Graph;
   let cmpAvatar: f.ComponentRigidbody;
   let camera: f.Node = new f.Node("Camera");
@@ -16,6 +37,8 @@ namespace L05_PhysicsGame {
   // let ctrRotation: f.Control = new f.Control("AvatarRotation", -0.1, f.CONTROL_TYPE.PROPORTIONAL);
   // ctrRotation.setDelay(100);
   window.addEventListener("load", start);
+
+
 
   async function start(_event: Event): Promise<void> {
     f.Physics.settings.debugDraw = true;
@@ -46,6 +69,8 @@ namespace L05_PhysicsGame {
 
     f.Loop.addEventListener(f.EVENT.LOOP_FRAME, update);
     f.Loop.start();
+    console.log(root);
+    root.addComponent(new f.ComponentAudioListener());
   }
 
   function createAvatar(): void {
@@ -56,6 +81,9 @@ namespace L05_PhysicsGame {
   
     avatar.addComponent(new f.ComponentTransform(f.Matrix4x4.TRANSLATION(f.Vector3.Y(3))));
     avatar.addComponent(cmpAvatar);
+
+    avatar.addComponent(new f.ComponentAudioListener());
+    f.AudioManager.default.listenTo(root);
 
     avatar.appendChild(camera);
     root.appendChild(avatar);
@@ -130,6 +158,10 @@ namespace L05_PhysicsGame {
       cmpRigidbody.restitution = 2.5;
       cmpRigidbody.friction = 2.5;
       node.addComponent(cmpRigidbody);
+      node.addComponent(new f.ComponentAudio(new f.Audio("Audio/mario_piano.mp3")));
+      node.addComponent(new Test());
+      node.addComponent(new SoundController());
+      
       // console.log(node.name, node.cmpTransform?.mtxLocal.toString());
     }
   }

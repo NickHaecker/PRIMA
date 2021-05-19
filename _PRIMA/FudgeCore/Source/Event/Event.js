@@ -1,6 +1,7 @@
 "use strict";
 var FudgeCore;
 (function (FudgeCore) {
+    // export type EventListenerƒ = ((_event: Eventƒ) => void) | EventListener | EventListenerObject;
     class EventTargetƒ extends EventTarget {
         addEventListener(_type, _handler, _options) {
             super.addEventListener(_type, _handler, _options);

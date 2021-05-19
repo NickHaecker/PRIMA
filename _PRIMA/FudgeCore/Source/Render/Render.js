@@ -12,25 +12,32 @@ var FudgeCore;
          * collects all lights and feeds all shaders used in the graph with these lights. Sorts nodes for different
          * render passes.
          */
-        static prepare(_branch, _mtxWorld = FudgeCore.Matrix4x4.IDENTITY(), _lights = new Map(), _shadersUsed = null) {
+        static prepare(_branch, _options = {}, _mtxWorld = FudgeCore.Matrix4x4.IDENTITY(), _lights = new Map(), _shadersUsed = null) {
             let firstLevel = (_shadersUsed == null);
             if (firstLevel) {
                 _shadersUsed = [];
                 Render.timestampUpdate = performance.now();
                 Render.nodesSimple.reset();
                 Render.nodesAlpha.reset();
+                Render.nodesPhysics.reset();
                 Render.dispatchEvent(new Event("renderPrepareStart" /* RENDER_PREPARE_START */));
             }
             if (!_branch.isActive)
                 return; // don't add branch to render list if not active
-            let mtxWorld = _mtxWorld;
             _branch.nNodesInBranch = 1;
             _branch.radius = 0;
             _branch.dispatchEventToTargetOnly(new Event("renderPrepare" /* RENDER_PREPARE */));
-            if (_branch.cmpTransform && _branch.cmpTransform.isActive)
-                mtxWorld = FudgeCore.Matrix4x4.MULTIPLICATION(_mtxWorld, _branch.cmpTransform.mtxLocal);
-            _branch.mtxWorld.set(mtxWorld); // overwrite readonly mtxWorld of the current node
             _branch.timestampUpdate = Render.timestampUpdate;
+            if (_branch.cmpTransform && _branch.cmpTransform.isActive)
+                _branch.mtxWorld.set(FudgeCore.Matrix4x4.MULTIPLICATION(_mtxWorld, _branch.cmpTransform.mtxLocal));
+            else
+                _branch.mtxWorld.set(_mtxWorld); // overwrite readonly mtxWorld of the current node
+            let cmpRigidbody = _branch.getComponent(FudgeCore.ComponentRigidbody);
+            if (cmpRigidbody && cmpRigidbody.isActive) { //TODO: support de-/activation throughout
+                Render.nodesPhysics.push(_branch); // add this node to physics list
+                if (!_options?.ignorePhysics)
+                    this.transformByPhysics(_branch, cmpRigidbody);
+            }
             let cmpLights = _branch.getComponents(FudgeCore.ComponentLight);
             for (let cmpLight of cmpLights) {
                 if (!cmpLight.isActive)
@@ -58,7 +65,7 @@ var FudgeCore;
                     Render.nodesSimple.push(_branch); // add this node to render list
             }
             for (let child of _branch.getChildren()) {
-                Render.prepare(child, mtxWorld, _lights, _shadersUsed);
+                Render.prepare(child, _options, _branch.mtxWorld, _lights, _shadersUsed);
                 _branch.nNodesInBranch += child.nNodesInBranch;
                 let cmpMeshChild = child.getComponent(FudgeCore.ComponentMesh);
                 let position = cmpMeshChild ? cmpMeshChild.mtxWorld.translation : child.mtxWorld.translation;
@@ -70,7 +77,7 @@ var FudgeCore;
                     Render.setLightsInShader(shader, _lights);
             }
             //Calculate Physics based on all previous calculations    
-            Render.setupPhysicalTransform(_branch);
+            // Render.setupPhysicalTransform(_branch);
         }
         //#endregion
         //#region Picking
@@ -136,34 +143,57 @@ var FudgeCore;
         * Physics Part -> Take all nodes with cmpRigidbody, and overwrite their local position/rotation with the one coming from
         * the rb component, which is the new "local" WORLD position.
         */
-        static setupPhysicalTransform(_branch) {
-            if (FudgeCore.Physics.world != null && FudgeCore.Physics.world.getBodyList().length >= 1) {
-                let mutator = {};
-                for (let name in _branch.getChildren()) {
-                    let childNode = _branch.getChildren()[name];
-                    Render.setupPhysicalTransform(childNode);
-                    let cmpRigidbody = childNode.getComponent(FudgeCore.ComponentRigidbody);
-                    if (childNode.getComponent(FudgeCore.ComponentTransform) != null && cmpRigidbody != null) {
-                        cmpRigidbody.checkCollisionEvents();
-                        cmpRigidbody.checkTriggerEvents();
-                        if (cmpRigidbody.physicsType != FudgeCore.PHYSICS_TYPE.KINEMATIC) { //Case of Dynamic/Static Rigidbody
-                            //Override any position/rotation, Physical Objects do not know hierachy unless it's established through physics
-                            mutator["rotation"] = cmpRigidbody.getRotation();
-                            mutator["translation"] = cmpRigidbody.getPosition();
-                            childNode.mtxLocal.mutate(mutator);
-                        }
-                        if (cmpRigidbody.physicsType == FudgeCore.PHYSICS_TYPE.KINEMATIC) { //Case of Kinematic Rigidbody
-                            cmpRigidbody.setPosition(childNode.mtxWorld.translation);
-                            cmpRigidbody.setRotation(childNode.mtxWorld.rotation);
-                        }
-                    }
-                }
+        // private static setupPhysicalTransform(_branch: Node): void {
+        //   if (Physics.world != null && Physics.world.getBodyList().length >= 1) {
+        //     let mutator: Mutator = {};
+        //     for (let name in _branch.getChildren()) {
+        //       let childNode: Node = _branch.getChildren()[name];
+        //       Render.setupPhysicalTransform(childNode);
+        //       let cmpRigidbody: ComponentRigidbody = childNode.getComponent(ComponentRigidbody);
+        //       if (childNode.getComponent(ComponentTransform) != null && cmpRigidbody != null) {
+        //         cmpRigidbody.checkCollisionEvents();
+        //         cmpRigidbody.checkTriggerEvents();
+        //         if (cmpRigidbody.physicsType != PHYSICS_TYPE.KINEMATIC) { //Case of Dynamic/Static Rigidbody
+        //           //Override any position/rotation, Physical Objects do not know hierachy unless it's established through physics
+        //           mutator["rotation"] = cmpRigidbody.getRotation();
+        //           mutator["translation"] = cmpRigidbody.getPosition();
+        //           childNode.mtxLocal.mutate(mutator);
+        //         }
+        //         if (cmpRigidbody.physicsType == PHYSICS_TYPE.KINEMATIC) { //Case of Kinematic Rigidbody
+        //           cmpRigidbody.setPosition(childNode.mtxWorld.translation);
+        //           cmpRigidbody.setRotation(childNode.mtxWorld.rotation);
+        //         }
+        //       }
+        //     }
+        //   }
+        // }
+        static transformByPhysics(_node, _cmpRigidbody) {
+            if (!FudgeCore.Physics.world?.getBodyList().length)
+                return;
+            if (!_node.mtxLocal) {
+                throw (new Error("ComponentRigidbody requires ComponentTransform at the same Node"));
             }
+            _cmpRigidbody.checkCollisionEvents();
+            _cmpRigidbody.checkTriggerEvents();
+            if (_cmpRigidbody.physicsType == FudgeCore.PHYSICS_TYPE.KINEMATIC) { //Case of Kinematic Rigidbody
+                _cmpRigidbody.setPosition(_node.mtxWorld.translation);
+                _cmpRigidbody.setRotation(_node.mtxWorld.rotation);
+                return;
+            }
+            //Override any position/rotation, disregard hierachy not established by joints
+            let mutator = {};
+            mutator["rotation"] = _cmpRigidbody.getRotation();
+            mutator["translation"] = _cmpRigidbody.getPosition();
+            _node.mtxWorld.mutate(mutator);
+            // Attention, node needs parent... but would using physics without make sense ?
+            _node.mtxLocal.set(FudgeCore.Matrix4x4.RELATIVE(_node.mtxWorld, _node.getParent().mtxWorld));
         }
     }
     Render.rectClip = new FudgeCore.Rectangle(-1, 1, 2, -2);
+    Render.nodesPhysics = new FudgeCore.RecycableArray();
     Render.nodesSimple = new FudgeCore.RecycableArray();
     Render.nodesAlpha = new FudgeCore.RecycableArray();
     FudgeCore.Render = Render;
+    //#endregion
 })(FudgeCore || (FudgeCore = {}));
 //# sourceMappingURL=Render.js.map

@@ -156,7 +156,10 @@ var FudgeCore;
                 this.source.addEventListener("ended" /* ENDED */, this.hndAudioEnded);
             }
             else
-                this.source.stop();
+                try {
+                    this.source.stop();
+                }
+                catch (_error) { /* catch exception when source hasn't been started... */ }
             this.playing = _on;
         }
         /**
