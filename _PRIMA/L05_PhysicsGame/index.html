@@ -4,16 +4,19 @@
 <title>PhysicsGame</title>
 <meta charset="utf-8" />
 <!--Load FUDGE-->
+
 <script type="text/javascript" src="../FudgePhysics/OimoPhysics.js">
 </script>
 <script type="text/javascript" src="../FudgeCore/Build/FudgeCore.js">
 </script>
+
 <script type="text/javascript" src="../FudgeAid/Build/FudgeAid.js">
 </script>
+<script type="text/javascript" src="../FudgeUserInterface/FudgeUserInterface.js"></script>
 <!--Link stylesheet and internal resources-->
 <link rel="stylesheet" href="PhysicsGame.css" />
 <link type="resources" src="PhysicsGame.json" />
-
+<script type="text/javascript" src="HUD.js" ></script>
 <script type="text/javascript" src="PhysicsGame.js">
 </script>
 <script type="text/javascript" src="SoundController.js" ></script>
@@ -73,5 +76,9 @@
 <!--Canvas for FUDGE to render to-->
 <canvas class="fullscreen">
 </canvas>
+{% comment %} UI {% endcomment %}
+<div id="hud" class="ui-wrapper">
+    <input key="hits" value="Hallo" >
+</div>
 </body>
 </html>

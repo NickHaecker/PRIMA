@@ -63,6 +63,7 @@ namespace L05_PhysicsGame {
     viewport = new f.Viewport();
     viewport.initialize("Viewport", root, cmpCamera, canvas);
 
+    HUD.start();
     
     canvas.addEventListener("click", canvas.requestPointerLock);
     canvas.addEventListener("mousemove", mouseMove);
@@ -70,7 +71,6 @@ namespace L05_PhysicsGame {
     f.Loop.addEventListener(f.EVENT.LOOP_FRAME, update);
     f.Loop.start();
     console.log(root);
-    root.addComponent(new f.ComponentAudioListener());
   }
 
   function createAvatar(): void {
@@ -83,7 +83,7 @@ namespace L05_PhysicsGame {
     avatar.addComponent(cmpAvatar);
 
     avatar.addComponent(new f.ComponentAudioListener());
-    f.AudioManager.default.listenTo(root);
+    // f.AudioManager.default.listenTo(root);
 
     avatar.appendChild(camera);
     root.appendChild(avatar);

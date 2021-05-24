@@ -53,12 +53,12 @@ var L05_PhysicsGame;
         canvas = document.querySelector("canvas");
         viewport = new f.Viewport();
         viewport.initialize("Viewport", root, cmpCamera, canvas);
+        L05_PhysicsGame.HUD.start();
         canvas.addEventListener("click", canvas.requestPointerLock);
         canvas.addEventListener("mousemove", mouseMove);
         f.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, update);
         f.Loop.start();
         console.log(root);
-        root.addComponent(new f.ComponentAudioListener());
     }
     function createAvatar() {
         cmpAvatar = new f.ComponentRigidbody(0.1, f.PHYSICS_TYPE.DYNAMIC, f.COLLIDER_TYPE.CAPSULE, f.PHYSICS_GROUP.DEFAULT);
@@ -68,7 +68,7 @@ var L05_PhysicsGame;
         avatar.addComponent(new f.ComponentTransform(f.Matrix4x4.TRANSLATION(f.Vector3.Y(3))));
         avatar.addComponent(cmpAvatar);
         avatar.addComponent(new f.ComponentAudioListener());
-        f.AudioManager.default.listenTo(root);
+        // f.AudioManager.default.listenTo(root);
         avatar.appendChild(camera);
         root.appendChild(avatar);
     }

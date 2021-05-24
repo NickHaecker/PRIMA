@@ -11,7 +11,7 @@ namespace L05_PhysicsGame {
             // this.getContainer().addComponent(new f.ComponentAudioListener())
             this.getContainer().getComponent(f.ComponentRigidbody).addEventListener(f.EVENT_PHYSICS.COLLISION_ENTER, this.HandleCollision.bind(this))
         }
-        private HandleCollision(_event: CustomEvent): void {
+        private HandleCollision(_event: CustomEvent): void { 
             let cmpAudio: ƒ.ComponentAudio = this.getContainer().getComponent(ƒ.ComponentAudio);
             console.log(cmpAudio)
             cmpAudio.play(true);
