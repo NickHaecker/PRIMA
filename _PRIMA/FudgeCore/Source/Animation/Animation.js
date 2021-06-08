@@ -1,7 +1,6 @@
 "use strict";
 // / <reference path="../Transfer/Mutable.ts"/>
 var FudgeCore;
-// / <reference path="../Transfer/Mutable.ts"/>
 (function (FudgeCore) {
     /**
      * Internally used to differentiate between the various generated structures and events.

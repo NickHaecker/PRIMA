@@ -2,8 +2,6 @@
 // / <reference path="../Transfer/Serializer.ts"/>
 // / <reference path="../Transfer/Mutable.ts"/>
 var FudgeCore;
-// / <reference path="../Transfer/Serializer.ts"/>
-// / <reference path="../Transfer/Mutable.ts"/>
 (function (FudgeCore) {
     /**
      * Holds information about set points in time, their accompanying values as well as their slopes.

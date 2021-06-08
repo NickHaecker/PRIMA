@@ -2,8 +2,6 @@
 // /<reference path="../Event/Event.ts"/>
 // /<reference path="../Time/Time.ts"/>
 var FudgeCore;
-// /<reference path="../Event/Event.ts"/>
-// /<reference path="../Time/Time.ts"/>
 (function (FudgeCore) {
     /**
      * Determines the mode a loop runs in

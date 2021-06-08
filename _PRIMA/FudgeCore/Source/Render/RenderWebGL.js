@@ -5,11 +5,6 @@
 ///<reference path="RenderInjectorMesh.ts"/>
 ///<reference path="../Math/Rectangle.ts"/>
 var FudgeCore;
-///<reference path="RenderInjector.ts"/>
-///<reference path="RenderInjectorShader.ts"/>
-///<reference path="RenderInjectorCoat.ts"/>
-///<reference path="RenderInjectorMesh.ts"/>
-///<reference path="../Math/Rectangle.ts"/>
 (function (FudgeCore) {
     let BLEND;
     (function (BLEND) {

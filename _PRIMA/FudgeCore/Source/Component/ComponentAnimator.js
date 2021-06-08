@@ -2,8 +2,6 @@
 // / <reference path="../Time/Loop.ts"/>
 // / <reference path="../Animation/Animation.ts"/>
 var FudgeCore;
-// / <reference path="../Time/Loop.ts"/>
-// / <reference path="../Animation/Animation.ts"/>
 (function (FudgeCore) {
     /**
      * Holds a reference to an [[Animation]] and controls it. Controls playback and playmode as well as speed.

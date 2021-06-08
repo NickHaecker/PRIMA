@@ -7,7 +7,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 // / <reference path="../Coat/Coat.ts"/>
 var FudgeCore;
-// / <reference path="../Coat/Coat.ts"/>
 (function (FudgeCore) {
     /**
      * Static superclass for the representation of WebGl shaderprograms.

@@ -1,7 +1,6 @@
 "use strict";
 // / <reference path="Component.ts"/>
 var FudgeCore;
-// / <reference path="Component.ts"/>
 (function (FudgeCore) {
     let FIELD_OF_VIEW;
     (function (FIELD_OF_VIEW) {

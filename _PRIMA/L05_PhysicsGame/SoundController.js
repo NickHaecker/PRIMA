@@ -6,7 +6,7 @@ var L05_PhysicsGame;
         // private _name: string = "SoundController";
         constructor() {
             super();
-            this.addEventListener("componentAdd" /* COMPONENT_ADD */, this.Created.bind(this));
+            this.addEventListener(ƒ.EVENT.COMPONENT_ADD, this.Created.bind(this));
         }
         Created(_event) {
             // this.getContainer().addComponent(new f.ComponentAudioListener())

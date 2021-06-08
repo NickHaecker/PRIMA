@@ -1,7 +1,6 @@
 "use strict";
 ///<reference path="Control.ts"/>
 var FudgeCore;
-///<reference path="Control.ts"/>
 (function (FudgeCore) {
     /**
      * Handles multiple controls as inputs and creates an output from that.

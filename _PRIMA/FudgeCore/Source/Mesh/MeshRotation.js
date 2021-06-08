@@ -1,7 +1,6 @@
 "use strict";
 ///<reference path="MeshPolygon.ts"/>
 var FudgeCore;
-///<reference path="MeshPolygon.ts"/>
 (function (FudgeCore) {
     /**
      * Generates a rotation of a polygon around the y-axis

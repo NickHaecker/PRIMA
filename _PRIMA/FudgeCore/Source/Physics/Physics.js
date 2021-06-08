@@ -1,7 +1,6 @@
 "use strict";
 ///<reference path="../../../Physics/OIMOPhysics.d.ts"/>
 var FudgeCore;
-///<reference path="../../../Physics/OIMOPhysics.d.ts"/>
 (function (FudgeCore) {
     /**
       * Main Physics Class to hold information about the physical representation of the scene

@@ -4,10 +4,6 @@
  * <State> should be an enum defining the various states of the machine
  */
 var FudgeAid;
-/**
- * State machine offers a structure and fundamental functionality for state machines
- * <State> should be an enum defining the various states of the machine
- */
 (function (FudgeAid) {
     /**
      * Core functionality of the state machine, holding solely the current state and, while in transition, the next state,

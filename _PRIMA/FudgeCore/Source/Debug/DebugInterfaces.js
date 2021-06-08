@@ -1,7 +1,6 @@
 "use strict";
 // <reference path="DebugAlert.ts"/>
 var FudgeCore;
-// <reference path="DebugAlert.ts"/>
 (function (FudgeCore) {
     /**
      * The filters corresponding to debug activities, more to come

@@ -1,7 +1,6 @@
 "use strict";
 // / <reference path="DebugTarget.ts"/>
 var FudgeCore;
-// / <reference path="DebugTarget.ts"/>
 (function (FudgeCore) {
     /**
      * Route to an HTMLTextArea, may be obsolete when using HTMLDialogElement

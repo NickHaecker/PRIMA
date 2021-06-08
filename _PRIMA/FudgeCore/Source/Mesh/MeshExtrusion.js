@@ -1,7 +1,6 @@
 "use strict";
 ///<reference path="MeshPolygon.ts"/>
 var FudgeCore;
-///<reference path="MeshPolygon.ts"/>
 (function (FudgeCore) {
     /**
      * Generates an extrusion of a polygon by a series of transformations

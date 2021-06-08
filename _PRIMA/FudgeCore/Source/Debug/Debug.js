@@ -3,9 +3,6 @@
 /// <reference path="DebugInterfaces.ts"/>
 /// <reference path="DebugConsole.ts"/>
 var FudgeCore;
-// / <reference path="DebugTarget.ts"/>
-/// <reference path="DebugInterfaces.ts"/>
-/// <reference path="DebugConsole.ts"/>
 (function (FudgeCore) {
     /**
      * The Debug-Class offers functions known from the console-object and additions,

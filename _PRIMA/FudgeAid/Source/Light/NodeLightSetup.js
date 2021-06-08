@@ -1,7 +1,6 @@
 "use strict";
 /// <reference path="../../../Core/Build/FudgeCore.d.ts"/>
 var FudgeAid;
-/// <reference path="../../../Core/Build/FudgeCore.d.ts"/>
 (function (FudgeAid) {
     var ƒ = FudgeCore;
     /**

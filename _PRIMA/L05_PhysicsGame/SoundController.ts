@@ -9,7 +9,7 @@ namespace L05_PhysicsGame {
         }
         private Created(_event: CustomEvent): void {
             // this.getContainer().addComponent(new f.ComponentAudioListener())
-            this.getContainer().getComponent(f.ComponentRigidbody).addEventListener(f.EVENT_PHYSICS.COLLISION_ENTER, this.HandleCollision.bind(this))
+            this.getContainer().getComponent(f.ComponentRigidbody).addEventListener(f.EVENT_PHYSICS.COLLISION_ENTER, this.HandleCollision.bind(this));
         }
         private HandleCollision(_event: CustomEvent): void { 
             let cmpAudio: ƒ.ComponentAudio = this.getContainer().getComponent(ƒ.ComponentAudio);

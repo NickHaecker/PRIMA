@@ -1,7 +1,6 @@
 "use strict";
 // / <reference path="DebugTarget.ts"/>
 var FudgeCore;
-// / <reference path="DebugTarget.ts"/>
 (function (FudgeCore) {
     /**
      * Routing to the standard-console

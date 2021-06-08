@@ -2,8 +2,6 @@
 ///<reference path="../Recycle/Recycler.ts"/>
 ///<reference path="Vector2.ts"/>
 var FudgeCore;
-///<reference path="../Recycle/Recycler.ts"/>
-///<reference path="Vector2.ts"/>
 (function (FudgeCore) {
     /**
      * Defines the origin of a rectangle

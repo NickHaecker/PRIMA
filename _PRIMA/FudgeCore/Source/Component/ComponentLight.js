@@ -1,7 +1,6 @@
 "use strict";
 ///<reference path="../Light/Light.ts"/>
 var FudgeCore;
-///<reference path="../Light/Light.ts"/>
 (function (FudgeCore) {
     /**
      * Defines identifiers for the various types of light this component can provide.

@@ -2,8 +2,6 @@
 // / <reference path="../Transfer/Serializer.ts"/>
 // / <reference path="../Transfer/Mutable.ts"/>
 var FudgeCore;
-// / <reference path="../Transfer/Serializer.ts"/>
-// / <reference path="../Transfer/Mutable.ts"/>
 (function (FudgeCore) {
     /**
      * Calculates the values between [[AnimationKey]]s.
