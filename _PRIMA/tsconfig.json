@@ -62,6 +62,8 @@
     "L04_FudgeEditor",
     "L03_FudgePhysics",
     "L02_SpaceInvaderGameObjects",
-    "L01_FirstFudge"
+    "L01_FirstFudge",
+    "FudgeCore/Source",
+    "FudgeAid/Source"
   ]
 }
