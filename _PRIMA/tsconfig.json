@@ -65,6 +65,8 @@
     "L01_FirstFudge",
     "FudgeCore/Source",
     "FudgeAid/Source",
-    "PrimaSS21Endabgabe/build"
+    "PrimaSS21Endabgabe/build",
+    "PrimaSS21Endabgabe/references/FudgeCore/Source",
+    "PrimaSS21Endabgabe/references/FudgeAid/Source"
   ]
 }
